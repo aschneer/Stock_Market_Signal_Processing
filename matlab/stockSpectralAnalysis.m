@@ -42,7 +42,7 @@ clc;
 
 % Import signal data.
 n = 2518; % data points.
-x = transpose(csvread('../nasdaq/PG_20050613-20150611.csv',1,1,[1 1 2518 1]));
+x = transpose(csvread('../data/nasdaq/PG_20050613-20150611.csv',1,1,[1 1 2518 1]));
 
 % Declare information about
 % imported signal.
