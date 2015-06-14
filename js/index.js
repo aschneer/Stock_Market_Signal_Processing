@@ -43,23 +43,31 @@ function processData()
 	n = dft_data.length;
 	nfft = (2^(math.ceil(math.log10(dft_data.length)/math.log10(2))));
 	// Time array (Matlab linspace);
-	console.log(linspace(1,10,100));
-	t = [];
+	t = // WRITE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	// Frequency array.
 	f = [];
 
-    var fft = new FFT(2048, 44100);
-    fft.forward(signal);
-    var spectrum = fft.spectrum;
+    //var fft = new FFT(2048, 44100);
+    //fft.forward(signal);
+    //var spectrum = fft.spectrum;
 }
 
+// Generate an array of numVals linearly spaced
+// values from lowBound to upBound.
 function linspace(lowBound,upBound,numVals)
 {
-	var array = [];
-	var step = ((upBound-lowBound)/(numVals-1));
-	for(var i = 0; i < numVals; i++)
+	if(!validator.isInt(numVals,{min:2}))
 	{
-		array[i] = (lowBound + (i*step));
+		return "ERROR: numVals must be integer.";
 	}
-	return array;
+	else
+	{
+		var array = [];
+		var step = ((upBound-lowBound)/(numVals-1));
+		for(var i = 0; i < numVals; i++)
+		{
+			array[i] = (lowBound + (i*step));
+		}
+		return array;
+	}
 }
