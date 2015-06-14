@@ -50,7 +50,7 @@ x = transpose(csvread('../data/nasdaq/PG_20050613-20150611.csv',1,1,[1 1 2518 1]
 % Sampling frequency.
 Fs = 1; % cycle per day.
 % Sampling period.
-Ts = (1/Fs); % days.
+Ts = (1/Fs); % days per cycle.
 % Time scale.
 t = linspace(0,(n-1),(Fs*n)); % days.
 % Number of FFT points.
