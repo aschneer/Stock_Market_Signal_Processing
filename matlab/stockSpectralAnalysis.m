@@ -76,7 +76,7 @@ bufferSize = 20; % data points.
 % Mark the array index of the end of the
 % last window where the average value
 % was subtracted from all the data points.
-lastWindowEnd = 0;
+lastWindowEnd = 0; % array index.
 % New array to store signal with
 % DC offset removed.
 x_mod = zeros(1,length(x));
