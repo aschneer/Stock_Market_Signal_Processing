@@ -58,7 +58,7 @@ t = linspace(0,(n-1),(Fs*n)); % days.
 % onto signal.  This formula finds
 % the next power of 2 that will
 % be larger than length(x);
-nfft = (2^(ceil(log10(length(x))/log10(2))));
+nfft = (2^(ceil(log10(n)/log10(2))));
 % Frequency spectrum values.
 f = ((Fs/nfft).*linspace(0,((nfft/2)-1),(nfft/2)));
 
@@ -79,15 +79,15 @@ bufferSize = 20; % data points.
 lastWindowEnd = 0; % array index.
 % New array to store signal with
 % DC offset removed.
-x_mod = zeros(1,length(x));
+x_mod = zeros(1,n);
 % Check if signal array is
 % smaller than buffer size.
-if(length(x) < bufferSize)
+if(n < bufferSize)
 	disp('Buffer larger than length');
-	bufferSize = length(x);
+	bufferSize = n;
 else
 	% Perform DC offset removal.
-	for i = (bufferSize:length(x))
+	for i = (bufferSize:n)
 		% Check if loop gets to
 		% end of array before
 		% it completes another
@@ -97,7 +97,7 @@ else
 		% than the buffer size.
 		% This is the last iteration
 		% of the loop as well.
-		if((i == (lastWindowEnd+bufferSize)) || (i == length(x)))
+		if((i == (lastWindowEnd+bufferSize)) || (i == n))
 			x_mod((lastWindowEnd+1):i) = (x((lastWindowEnd+1):i) - mean(x((lastWindowEnd+1):i)));
 			lastWindowEnd = i;
 		end
@@ -110,6 +110,10 @@ end
 
 % Calculate Hann (Hanning) Window:
 % Size of window.
+% (N should equal n, unless
+% zero padding is done manually,
+% in which case x_mod might be
+% larger then x).
 N = length(x_mod);
 % Window.
 w = [];
