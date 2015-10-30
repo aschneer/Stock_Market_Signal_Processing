@@ -7,10 +7,12 @@ var x = [];
 // Dataset with DC offset removed.
 var x_mod = [];
 // (Once per day sampling frequency);
-var Fs = (1.15740740741*(10^(-05))); // Hz.
+var Fs = (1.15740740741*math.pow(10,(-05))); // Hz.
 var Ts = (1/Fs); // sec. per cycle.
 // Length of x.
 var n = 0;
+// Total time span of x (sec);
+var totTime = 0;
 // Length of data given
 // to FFT (with zero padding).
 var nfft = 0;
@@ -54,9 +56,14 @@ var LOW_COL = 5;
 
 function init()
 {
+	loadData();
+}
+
+function loadData()
+{
 	$.ajax({
 		type: "GET",
-		url: "./data/nasdaq/PG_20050613-20150611.csv",
+		url: "./data/nasdaq/PG_20140611-20150611.csv",
 		dataType: "text",
 		success: function(returnData1){
 			$.csv.toArrays(returnData1, {}, function(err,returnData2){
@@ -88,9 +95,11 @@ function processData()
 	}
 	n = x.length;
 	nfft = math.pow(2,(math.ceil(math.log10(n)/math.log10(2))));
+	totTime = (Ts*(n-1));
 	// Time array (Matlab linspace) for
 	// x-axis of signal plot.
-	t = linspace(0,(n-1),(Fs*n));
+	t = linspace(0,totTime,n);
+
 	// Frequency array for x-axis of
 	// FFT plots.
 	f = linspace(0,((nfft/2)-1),(nfft/2));
@@ -99,6 +108,11 @@ function processData()
 		f[i] = (f[i]*(Fs/nfft));
 	}
 
+	spectralAnalysis();
+}
+
+function spectralAnalysis()
+{
 	// Perform actual spectral analysis
 	// on imported signal.
 
@@ -191,7 +205,16 @@ function processData()
 	// Perform FFT.
 	var fft = new FFT(nfft,Fs);
 	fft.forward(x_mod);
-	dft = fft.spectrum;
+	var temp = fft.spectrum;
+
+	// The output of the "fft.spectrum"
+	// function is a Float32Array type object.
+	// It must be converted to a JS Array to
+	// use array functions on it.
+	for (var i = 0; i < temp.length; i++)
+	{
+		dft[i] = temp[i];
+	}
 
 	// Take first half of FFT output.
 	dft = dft.slice(0,(nfft/2));
@@ -225,10 +248,38 @@ function processData()
 		pow_dft_log[i] = (10*math.log10(pow_dft[i]));
 	}
 
-	console.log(dft);
-	console.log(mag_dft);
-	console.log(pow_dft);
-	console.log(pow_dft_log);
+	createGoogleCharts();
+}
+
+function createGoogleCharts()
+{
+	// Create data table.
+	var dataTable = new google.visualization.DataTable();
+	dataTable.addColumn("number","Time (sec)");
+	dataTable.addColumn("number","Price ($ USD)");
+	// Transform data into Google data
+	// table format.
+	var tableTemp = [];
+
+	// VALUES OF X ARE CHANGING BEFORE THIS POINT!!!!!!!!!!!!!!!!!!!!1
+
+	console.log(x);
+
+	for (var i = 0; i < n; i++)
+	{
+		tableTemp[i] = [t[i],x[i]];
+	}
+	// Create the Google data table.
+	dataTable.addRows(tableTemp);
+	// Set chart options.
+	var options = {
+		"title":"Stock price history of...",
+		"width":1000,
+		"height":700
+	};
+	// Instantiate and draw chart.
+	var chart = new google.charts.Line(document.getElementById("chart-01"));
+	chart.draw(dataTable,options);
 }
 
 // Generate an array of numVals linearly spaced
@@ -237,7 +288,8 @@ function linspace(lowBound,upBound,numVals)
 {
 	if(!validator.isInt(numVals,{min:2}))
 	{
-		return "ERROR: numVals must be integer.";
+		console.log("ERROR: numVals must be an integer >= 2.");
+		return "ERROR: numVals must be an integer >= 2.";
 	}
 	else
 	{

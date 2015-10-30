@@ -42,15 +42,37 @@
 		<script type="text/javascript" src="./lib/Tangle-0.1.0/TangleKit/TangleKit.js"></script>
 		<!-- Add "Validator js" library. -->
 		<script type="text/javascript" src="./lib/validator.js-master/validator.min.js"></script>
+		<!-- Add "d3 js" library. --
+		<script type="text/javascript" src="./lib/d3/d3.min.js"></script> -->
 
 		<!-- ====================== -->
 
-		<!-- Javascript -->
+		<!-- My Javascript -->
 		<script type="text/javascript" src="./js/index.js"></script>
+
+		<!-- Add Google Charts AJAX API. -->
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript">
+			// Load Google Charts library.
+			google.load("visualization","1.0",{"packages":["corechart","line"]});
+			// Declare function that will run
+			// when the Google charts libraries
+			// are finished loading.
+			google.setOnLoadCallback(loadData);
+		</script>
 
 	</head>
 
-	<body onload="init()">
+
+
+
+
+	<body>
+
+
+
+		<div id="chart-01">
+		</div>
 	</body>
 
 </html>
