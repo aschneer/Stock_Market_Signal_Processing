@@ -19,19 +19,23 @@
 		<!-- Title -->
 		<title>Stock Spectral Analysis</title>
 
-		<!-- Style Sheet -->
-		<link rel="stylesheet" type="text/css" href="./css/style.css"/>
-
 		<!-- Add External Libraries -->
 
-		<!-- Add "jquery 2.1.4" library. -->
-		<script type="text/javascript" src="./lib/jquery-2.1.4.min.js"></script>
+		<!-- jQuery -->
+		<!-- Bootstrap requires the older version of jQuery,
+			 and it must be loaded first! -->
+		<script type='text/javascript' src='./lib/jquery/jquery-1.11.3.min.js'></script>
+		<!-- Bootstrap Javascript -->
+		<script type='text/javascript' src='./lib/bootstrap/bootstrap.min.js'></script>
+		<link rel="stylesheet" type="text/css" href="./lib/bootstrap/bootstrap.min.css"/>
+		<!-- jQuery Easing Plugin for JavaScript -->
+		<script type='text/javascript' src='./lib/jquery/jquery.easing.min.js'></script>
 		<!-- Add "math.js" library. -->
 		<script type="text/javascript" src="./lib/math.min.js"></script>
 		<!-- Add "dsp.js" library. -->
 		<script type="text/javascript" src="./lib/dsp.js-master/dsp.js"></script>
 		<!-- Add "jquery.csv.js" library. -->
-		<script type="text/javascript" src="./lib/jquery.csv-0.71.min.js"></script>
+		<script type="text/javascript" src="./lib/jquery/jquery.csv-0.71.min.js"></script>
 		<!-- Add "Tangle 0.1.0" library. -->
 		<script type="text/javascript" src="./lib/Tangle-0.1.0/Tangle.js"></script>
 		<!-- Add "Tangle Kit" extension of Tangle 0.1.0. -->
@@ -47,10 +51,19 @@
 
 		<!-- ====================== -->
 
+		<!-- My CSS -->
+		<link rel="stylesheet" type="text/css" href="./css/style.css"/>
+
 		<!-- My Javascript -->
+		<script type="text/javascript" src="./js/calc_general.js"></script>
+		<script type="text/javascript" src="./js/calc_spectralAnalysis.js"></script>
+<!--		<script type="text/javascript" src="./js/data_local.js"></script>	-->
+		<script type="text/javascript" src="./js/data_yahooFinance_01.js"></script>
+		<script type="text/javascript" src="./js/viz_amCharts.js"></script>
+<!--		<script type="text/javascript" src="./js/viz_googleCharts.js"></script>	-->
 		<script type="text/javascript" src="./js/index.js"></script>
 
-		<!-- Add Google Charts AJAX API. -->
+<!--		<!-- Add Google Charts AJAX API. --
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<script type="text/javascript">
 			// Load Google Charts library.
@@ -60,19 +73,68 @@
 			// are finished loading.
 			google.setOnLoadCallback(loadData);
 		</script>
+-->
 
 	</head>
 
-
-
-
-
 	<body>
 
+		<div class="container-fluid">
+			***Note that all dates and times are in the
+			timezone in which the exchange operates for
+			the security being queried.
+			<div class="row">
+				<div class="col-xs-12">
+					<form>
+						<div class="checkbox">
+							<label><input id="in_001" type="checkbox" value="">Checkbox 1</label>
+						</div>
+						<div class="form-group">
+							<label for="from">From:</label>
+							<span id="from">
+								<input id="in_002" type="date" value="2000-01-01">
+								<input id="in_003" type="time" value="09:30">
+							</span>
+						</div>
+						<div class="form-group">
+							<label for =>To:</label>
+							<span id="to">
+								<input id="in_004" type="date" value="2010-01-31">
+								<input id="in_005" type="time" value="16:00">
+							</span>
+						</div>
+						<div class="form-group">
+							<label for="in_006">Datapoint Interval:</label>
+							<select id="in_006" class="form-control" required>
+								<option style="font-style:italic">Select interval...</option>
+								<option>Minute</option>
+								<option>Day</option>
+								<option>Week</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="in_007">Stock Ticker Symbol:</label>
+							<input id="in_007" class="form-control" type="text" placeholder="ex. GOOG" value="aapl">
+						</div>
+						<button type="button" class="btn btn-primary submit">Submit</button>
 
+<!--						<div class="form-group">
+							<label for="sel1">Select Security:</label>
+							<select id="sel1" class="form-control">
+								<option>GOOG</option>
+								<option>AAPL</option>
+								<option>Load list...</option>
+							</select>
+						</div>
+-->
+					</form>
+				</div>
+			</div>
+		</div>
 
 		<div id="chart-01">
 		</div>
+
 	</body>
 
 </html>
